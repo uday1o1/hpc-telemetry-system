@@ -1,0 +1,871 @@
+{
+  "fault_trials": [
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10000,
+      "sieve_limit": 2000000,
+      "target_host": "workload-1",
+      "trial_id": "cpu_contention-0000"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10001,
+      "sieve_limit": 2000000,
+      "target_host": "workload-2",
+      "trial_id": "cpu_contention-0001"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10002,
+      "sieve_limit": 2000000,
+      "target_host": "workload-3",
+      "trial_id": "cpu_contention-0002"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10003,
+      "sieve_limit": 2000000,
+      "target_host": "workload-4",
+      "trial_id": "cpu_contention-0003"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10004,
+      "sieve_limit": 2000000,
+      "target_host": "workload-5",
+      "trial_id": "cpu_contention-0004"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10005,
+      "sieve_limit": 2000000,
+      "target_host": "workload-6",
+      "trial_id": "cpu_contention-0005"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10006,
+      "sieve_limit": 2000000,
+      "target_host": "workload-7",
+      "trial_id": "cpu_contention-0006"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10007,
+      "sieve_limit": 2000000,
+      "target_host": "workload-8",
+      "trial_id": "cpu_contention-0007"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10008,
+      "sieve_limit": 2000000,
+      "target_host": "workload-1",
+      "trial_id": "cpu_contention-0008"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10009,
+      "sieve_limit": 2000000,
+      "target_host": "workload-2",
+      "trial_id": "cpu_contention-0009"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10010,
+      "sieve_limit": 2000000,
+      "target_host": "workload-3",
+      "trial_id": "cpu_contention-0010"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10011,
+      "sieve_limit": 2000000,
+      "target_host": "workload-4",
+      "trial_id": "cpu_contention-0011"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10012,
+      "sieve_limit": 2000000,
+      "target_host": "workload-5",
+      "trial_id": "cpu_contention-0012"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10013,
+      "sieve_limit": 2000000,
+      "target_host": "workload-6",
+      "trial_id": "cpu_contention-0013"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10014,
+      "sieve_limit": 2000000,
+      "target_host": "workload-7",
+      "trial_id": "cpu_contention-0014"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10015,
+      "sieve_limit": 2000000,
+      "target_host": "workload-8",
+      "trial_id": "cpu_contention-0015"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10016,
+      "sieve_limit": 2000000,
+      "target_host": "workload-1",
+      "trial_id": "cpu_contention-0016"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10017,
+      "sieve_limit": 2000000,
+      "target_host": "workload-2",
+      "trial_id": "cpu_contention-0017"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10018,
+      "sieve_limit": 2000000,
+      "target_host": "workload-3",
+      "trial_id": "cpu_contention-0018"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10019,
+      "sieve_limit": 2000000,
+      "target_host": "workload-4",
+      "trial_id": "cpu_contention-0019"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10020,
+      "sieve_limit": 2000000,
+      "target_host": "workload-5",
+      "trial_id": "cpu_contention-0020"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10021,
+      "sieve_limit": 2000000,
+      "target_host": "workload-6",
+      "trial_id": "cpu_contention-0021"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10022,
+      "sieve_limit": 2000000,
+      "target_host": "workload-7",
+      "trial_id": "cpu_contention-0022"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10023,
+      "sieve_limit": 2000000,
+      "target_host": "workload-8",
+      "trial_id": "cpu_contention-0023"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10024,
+      "sieve_limit": 2000000,
+      "target_host": "workload-1",
+      "trial_id": "cpu_contention-0024"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10025,
+      "sieve_limit": 2000000,
+      "target_host": "workload-2",
+      "trial_id": "cpu_contention-0025"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10026,
+      "sieve_limit": 2000000,
+      "target_host": "workload-3",
+      "trial_id": "cpu_contention-0026"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10027,
+      "sieve_limit": 2000000,
+      "target_host": "workload-4",
+      "trial_id": "cpu_contention-0027"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10028,
+      "sieve_limit": 2000000,
+      "target_host": "workload-5",
+      "trial_id": "cpu_contention-0028"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10029,
+      "sieve_limit": 2000000,
+      "target_host": "workload-6",
+      "trial_id": "cpu_contention-0029"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10030,
+      "sieve_limit": 2000000,
+      "target_host": "workload-7",
+      "trial_id": "cpu_contention-0030"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10031,
+      "sieve_limit": 2000000,
+      "target_host": "workload-8",
+      "trial_id": "cpu_contention-0031"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10032,
+      "sieve_limit": 2000000,
+      "target_host": "workload-1",
+      "trial_id": "cpu_contention-0032"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10033,
+      "sieve_limit": 2000000,
+      "target_host": "workload-2",
+      "trial_id": "cpu_contention-0033"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10034,
+      "sieve_limit": 2000000,
+      "target_host": "workload-3",
+      "trial_id": "cpu_contention-0034"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10035,
+      "sieve_limit": 2000000,
+      "target_host": "workload-4",
+      "trial_id": "cpu_contention-0035"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10036,
+      "sieve_limit": 2000000,
+      "target_host": "workload-5",
+      "trial_id": "cpu_contention-0036"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10037,
+      "sieve_limit": 2000000,
+      "target_host": "workload-6",
+      "trial_id": "cpu_contention-0037"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10038,
+      "sieve_limit": 2000000,
+      "target_host": "workload-7",
+      "trial_id": "cpu_contention-0038"
+    },
+    {
+      "fault_type": "cpu_contention",
+      "intensity": 2,
+      "phase_index": 0,
+      "seed": 10039,
+      "sieve_limit": 2000000,
+      "target_host": "workload-8",
+      "trial_id": "cpu_contention-0039"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20000,
+      "sieve_limit": 2000000,
+      "target_host": "workload-1",
+      "trial_id": "io_stall-0000"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20001,
+      "sieve_limit": 2000000,
+      "target_host": "workload-2",
+      "trial_id": "io_stall-0001"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20002,
+      "sieve_limit": 2000000,
+      "target_host": "workload-3",
+      "trial_id": "io_stall-0002"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20003,
+      "sieve_limit": 2000000,
+      "target_host": "workload-4",
+      "trial_id": "io_stall-0003"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20004,
+      "sieve_limit": 2000000,
+      "target_host": "workload-5",
+      "trial_id": "io_stall-0004"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20005,
+      "sieve_limit": 2000000,
+      "target_host": "workload-6",
+      "trial_id": "io_stall-0005"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20006,
+      "sieve_limit": 2000000,
+      "target_host": "workload-7",
+      "trial_id": "io_stall-0006"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20007,
+      "sieve_limit": 2000000,
+      "target_host": "workload-8",
+      "trial_id": "io_stall-0007"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20008,
+      "sieve_limit": 2000000,
+      "target_host": "workload-1",
+      "trial_id": "io_stall-0008"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20009,
+      "sieve_limit": 2000000,
+      "target_host": "workload-2",
+      "trial_id": "io_stall-0009"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20010,
+      "sieve_limit": 2000000,
+      "target_host": "workload-3",
+      "trial_id": "io_stall-0010"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20011,
+      "sieve_limit": 2000000,
+      "target_host": "workload-4",
+      "trial_id": "io_stall-0011"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20012,
+      "sieve_limit": 2000000,
+      "target_host": "workload-5",
+      "trial_id": "io_stall-0012"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20013,
+      "sieve_limit": 2000000,
+      "target_host": "workload-6",
+      "trial_id": "io_stall-0013"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20014,
+      "sieve_limit": 2000000,
+      "target_host": "workload-7",
+      "trial_id": "io_stall-0014"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20015,
+      "sieve_limit": 2000000,
+      "target_host": "workload-8",
+      "trial_id": "io_stall-0015"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20016,
+      "sieve_limit": 2000000,
+      "target_host": "workload-1",
+      "trial_id": "io_stall-0016"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20017,
+      "sieve_limit": 2000000,
+      "target_host": "workload-2",
+      "trial_id": "io_stall-0017"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20018,
+      "sieve_limit": 2000000,
+      "target_host": "workload-3",
+      "trial_id": "io_stall-0018"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20019,
+      "sieve_limit": 2000000,
+      "target_host": "workload-4",
+      "trial_id": "io_stall-0019"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20020,
+      "sieve_limit": 2000000,
+      "target_host": "workload-5",
+      "trial_id": "io_stall-0020"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20021,
+      "sieve_limit": 2000000,
+      "target_host": "workload-6",
+      "trial_id": "io_stall-0021"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20022,
+      "sieve_limit": 2000000,
+      "target_host": "workload-7",
+      "trial_id": "io_stall-0022"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20023,
+      "sieve_limit": 2000000,
+      "target_host": "workload-8",
+      "trial_id": "io_stall-0023"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20024,
+      "sieve_limit": 2000000,
+      "target_host": "workload-1",
+      "trial_id": "io_stall-0024"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20025,
+      "sieve_limit": 2000000,
+      "target_host": "workload-2",
+      "trial_id": "io_stall-0025"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20026,
+      "sieve_limit": 2000000,
+      "target_host": "workload-3",
+      "trial_id": "io_stall-0026"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20027,
+      "sieve_limit": 2000000,
+      "target_host": "workload-4",
+      "trial_id": "io_stall-0027"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20028,
+      "sieve_limit": 2000000,
+      "target_host": "workload-5",
+      "trial_id": "io_stall-0028"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20029,
+      "sieve_limit": 2000000,
+      "target_host": "workload-6",
+      "trial_id": "io_stall-0029"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20030,
+      "sieve_limit": 2000000,
+      "target_host": "workload-7",
+      "trial_id": "io_stall-0030"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20031,
+      "sieve_limit": 2000000,
+      "target_host": "workload-8",
+      "trial_id": "io_stall-0031"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20032,
+      "sieve_limit": 2000000,
+      "target_host": "workload-1",
+      "trial_id": "io_stall-0032"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20033,
+      "sieve_limit": 2000000,
+      "target_host": "workload-2",
+      "trial_id": "io_stall-0033"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20034,
+      "sieve_limit": 2000000,
+      "target_host": "workload-3",
+      "trial_id": "io_stall-0034"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20035,
+      "sieve_limit": 2000000,
+      "target_host": "workload-4",
+      "trial_id": "io_stall-0035"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20036,
+      "sieve_limit": 2000000,
+      "target_host": "workload-5",
+      "trial_id": "io_stall-0036"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20037,
+      "sieve_limit": 2000000,
+      "target_host": "workload-6",
+      "trial_id": "io_stall-0037"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20038,
+      "sieve_limit": 2000000,
+      "target_host": "workload-7",
+      "trial_id": "io_stall-0038"
+    },
+    {
+      "fault_type": "io_stall",
+      "intensity": 4,
+      "phase_index": 0,
+      "seed": 20039,
+      "sieve_limit": 2000000,
+      "target_host": "workload-8",
+      "trial_id": "io_stall-0039"
+    }
+  ],
+  "no_fault_trials": [
+    {
+      "fault_type": null,
+      "intensity": null,
+      "phase_index": 0,
+      "seed": 30000,
+      "sieve_limit": 2000000,
+      "target_host": null,
+      "trial_id": "no-fault-0000"
+    },
+    {
+      "fault_type": null,
+      "intensity": null,
+      "phase_index": 0,
+      "seed": 30001,
+      "sieve_limit": 2000000,
+      "target_host": null,
+      "trial_id": "no-fault-0001"
+    },
+    {
+      "fault_type": null,
+      "intensity": null,
+      "phase_index": 0,
+      "seed": 30002,
+      "sieve_limit": 2000000,
+      "target_host": null,
+      "trial_id": "no-fault-0002"
+    },
+    {
+      "fault_type": null,
+      "intensity": null,
+      "phase_index": 0,
+      "seed": 30003,
+      "sieve_limit": 2000000,
+      "target_host": null,
+      "trial_id": "no-fault-0003"
+    },
+    {
+      "fault_type": null,
+      "intensity": null,
+      "phase_index": 0,
+      "seed": 30004,
+      "sieve_limit": 2000000,
+      "target_host": null,
+      "trial_id": "no-fault-0004"
+    },
+    {
+      "fault_type": null,
+      "intensity": null,
+      "phase_index": 0,
+      "seed": 30005,
+      "sieve_limit": 2000000,
+      "target_host": null,
+      "trial_id": "no-fault-0005"
+    },
+    {
+      "fault_type": null,
+      "intensity": null,
+      "phase_index": 0,
+      "seed": 30006,
+      "sieve_limit": 2000000,
+      "target_host": null,
+      "trial_id": "no-fault-0006"
+    },
+    {
+      "fault_type": null,
+      "intensity": null,
+      "phase_index": 0,
+      "seed": 30007,
+      "sieve_limit": 2000000,
+      "target_host": null,
+      "trial_id": "no-fault-0007"
+    },
+    {
+      "fault_type": null,
+      "intensity": null,
+      "phase_index": 0,
+      "seed": 30008,
+      "sieve_limit": 2000000,
+      "target_host": null,
+      "trial_id": "no-fault-0008"
+    },
+    {
+      "fault_type": null,
+      "intensity": null,
+      "phase_index": 0,
+      "seed": 30009,
+      "sieve_limit": 2000000,
+      "target_host": null,
+      "trial_id": "no-fault-0009"
+    },
+    {
+      "fault_type": null,
+      "intensity": null,
+      "phase_index": 0,
+      "seed": 30010,
+      "sieve_limit": 2000000,
+      "target_host": null,
+      "trial_id": "no-fault-0010"
+    },
+    {
+      "fault_type": null,
+      "intensity": null,
+      "phase_index": 0,
+      "seed": 30011,
+      "sieve_limit": 2000000,
+      "target_host": null,
+      "trial_id": "no-fault-0011"
+    },
+    {
+      "fault_type": null,
+      "intensity": null,
+      "phase_index": 0,
+      "seed": 30012,
+      "sieve_limit": 2000000,
+      "target_host": null,
+      "trial_id": "no-fault-0012"
+    },
+    {
+      "fault_type": null,
+      "intensity": null,
+      "phase_index": 0,
+      "seed": 30013,
+      "sieve_limit": 2000000,
+      "target_host": null,
+      "trial_id": "no-fault-0013"
+    },
+    {
+      "fault_type": null,
+      "intensity": null,
+      "phase_index": 0,
+      "seed": 30014,
+      "sieve_limit": 2000000,
+      "target_host": null,
+      "trial_id": "no-fault-0014"
+    },
+    {
+      "fault_type": null,
+      "intensity": null,
+      "phase_index": 0,
+      "seed": 30015,
+      "sieve_limit": 2000000,
+      "target_host": null,
+      "trial_id": "no-fault-0015"
+    }
+  ],
+  "schema_version": 1
+}

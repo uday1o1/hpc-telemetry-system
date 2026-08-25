@@ -14,6 +14,7 @@ from pydantic import BaseModel
 
 from workloadrunner.compute import run_prime_sieve
 from workloadrunner.config import load_config
+from workloadrunner.faults import FaultManifest, apply_fault
 from workloadrunner.reporter import report_phase_event
 
 logging.basicConfig(level=logging.INFO)
@@ -23,10 +24,16 @@ _config = load_config()
 app = FastAPI(title="HPC Telemetry System Workload Runner")
 
 
+class FaultSpec(BaseModel):
+    fault_type: str
+    intensity: int = 2
+
+
 class StartPhaseRequest(BaseModel):
     job_id: str
     phase_index: int
     sieve_limit: int | None = None
+    fault: FaultSpec | None = None
 
 
 class StartPhaseResponse(BaseModel):
@@ -47,6 +54,11 @@ def _now_monotonic_ns() -> int:
     return time.monotonic_ns()
 
 
+def _run_phase_work(sieve_limit: int, fault_manifest: FaultManifest | None) -> None:
+    with apply_fault(fault_manifest):
+        run_prime_sieve(sieve_limit)
+
+
 @app.get("/healthz")
 def healthz() -> dict[str, str]:
     return {"status": "ok"}
@@ -59,11 +71,18 @@ async def start_phase(request: StartPhaseRequest) -> StartPhaseResponse:
     phase_start_ts_ns = _now_realtime_ns()
     phase_start_mono_ns = _now_monotonic_ns()
 
+    fault_manifest = (
+        FaultManifest(fault_type=request.fault.fault_type, intensity=request.fault.intensity)
+        if request.fault is not None
+        else None
+    )
+
     status = "ok"
     try:
-        # Run the CPU-bound work off the event loop thread so the process
-        # stays responsive (e.g. to /healthz) while the phase is running.
-        await asyncio.to_thread(run_prime_sieve, sieve_limit)
+        # Run the CPU-bound work (and any seeded fault) off the event loop
+        # thread so the process stays responsive (e.g. to /healthz) while
+        # the phase is running.
+        await asyncio.to_thread(_run_phase_work, sieve_limit, fault_manifest)
     except Exception:
         logger.exception("phase_failed", extra={"node_id": _config.node_id, "job_id": request.job_id})
         status = "error"

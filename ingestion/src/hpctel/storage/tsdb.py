@@ -136,14 +136,25 @@ class TSDBStore:
     # -- Jobs and phase events (Milestone 3) --------------------------------
 
     def create_job(
-        self, job_id: str, phase_count: int, node_ids: list[str], created_ts_ns: int
+        self,
+        job_id: str,
+        phase_count: int,
+        node_ids: list[str],
+        created_ts_ns: int,
+        fault_manifest: dict[str, object] | None = None,
     ) -> None:
         self._conn.execute(
             """
             INSERT INTO jobs (job_id, phase_count, node_ids_json, fault_manifest_json, status, created_ts_ns)
-            VALUES (?, ?, ?, NULL, 'running', ?)
+            VALUES (?, ?, ?, ?, 'running', ?)
             """,
-            (job_id, phase_count, json.dumps(node_ids), created_ts_ns),
+            (
+                job_id,
+                phase_count,
+                json.dumps(node_ids),
+                json.dumps(fault_manifest) if fault_manifest is not None else None,
+                created_ts_ns,
+            ),
         )
         self._conn.commit()
 
@@ -153,7 +164,10 @@ class TSDBStore:
 
     def get_job(self, job_id: str) -> dict[str, object] | None:
         cursor = self._conn.execute(
-            "SELECT job_id, phase_count, node_ids_json, status, created_ts_ns FROM jobs WHERE job_id = ?",
+            """
+            SELECT job_id, phase_count, node_ids_json, fault_manifest_json, status, created_ts_ns
+            FROM jobs WHERE job_id = ?
+            """,
             (job_id,),
         )
         row = cursor.fetchone()
@@ -163,8 +177,9 @@ class TSDBStore:
             "job_id": row[0],
             "phase_count": row[1],
             "node_ids": json.loads(row[2]),
-            "status": row[3],
-            "created_ts_ns": row[4],
+            "fault_manifest": json.loads(row[3]) if row[3] is not None else None,
+            "status": row[4],
+            "created_ts_ns": row[5],
         }
 
     def insert_phase_event(

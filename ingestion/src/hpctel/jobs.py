@@ -22,11 +22,19 @@ _PHASE_REPORT_TIMEOUT_S = 30.0
 _PHASE_REPORT_POLL_INTERVAL_S = 0.2
 
 
-async def _dispatch_phase(host: str, job_id: str, phase_index: int, sieve_limit: int | None) -> None:
+async def _dispatch_phase(
+    host: str,
+    job_id: str,
+    phase_index: int,
+    sieve_limit: int | None,
+    fault: dict[str, object] | None = None,
+) -> None:
     url = f"http://{host}:9090/start_phase"
     body: dict[str, object] = {"job_id": job_id, "phase_index": phase_index}
     if sieve_limit is not None:
         body["sieve_limit"] = sieve_limit
+    if fault is not None:
+        body["fault"] = fault
     try:
         async with httpx.AsyncClient(timeout=_PHASE_DISPATCH_TIMEOUT_S) as client:
             response = await client.post(url, json=body)
@@ -44,13 +52,25 @@ async def _wait_for_phase_reports(store: TSDBStore, job_id: str, phase_index: in
     return store.count_phase_reports(job_id, phase_index) >= expected_count
 
 
-def create_job(store: TSDBStore, workload_hosts: list[str], phase_count: int) -> str:
+def create_job(
+    store: TSDBStore,
+    workload_hosts: list[str],
+    phase_count: int,
+    fault_manifest: dict[str, object] | None = None,
+) -> str:
     """Synchronously creates the job row and returns its job_id, so the API
     layer can respond to POST /api/jobs with a queryable job_id immediately,
     before the (potentially slow) phase execution begins.
+
+    `fault_manifest`, when given, is
+    `{"target_host": str, "phase_index": int, "fault_type": str, "intensity": int}`
+    (BUILD_PLAN.md section 11): the fault is dispatched only to
+    `target_host`, only for `phase_index`, and no other host or phase.
     """
     job_id = str(uuid.uuid4())
-    store.create_job(job_id, phase_count, workload_hosts, created_ts_ns=time.time_ns())
+    store.create_job(
+        job_id, phase_count, workload_hosts, created_ts_ns=time.time_ns(), fault_manifest=fault_manifest
+    )
     return job_id
 
 
@@ -60,14 +80,26 @@ async def execute_job(
     workload_hosts: list[str],
     phase_count: int,
     sieve_limit: int | None = None,
+    fault_manifest: dict[str, object] | None = None,
 ) -> None:
     """Runs every phase of an already-created job to completion or timeout.
     Intended to be scheduled as a background asyncio task by the API layer.
     """
     for phase_index in range(phase_count):
-        await asyncio.gather(
-            *(_dispatch_phase(host, job_id, phase_index, sieve_limit) for host in workload_hosts)
-        )
+        dispatches = []
+        for host in workload_hosts:
+            fault_for_host = None
+            if (
+                fault_manifest is not None
+                and fault_manifest.get("target_host") == host
+                and fault_manifest.get("phase_index") == phase_index
+            ):
+                fault_for_host = {
+                    "fault_type": fault_manifest["fault_type"],
+                    "intensity": fault_manifest.get("intensity", 2),
+                }
+            dispatches.append(_dispatch_phase(host, job_id, phase_index, sieve_limit, fault_for_host))
+        await asyncio.gather(*dispatches)
         all_reported = await _wait_for_phase_reports(store, job_id, phase_index, len(workload_hosts))
         if not all_reported:
             store.set_job_status(job_id, "timed_out")

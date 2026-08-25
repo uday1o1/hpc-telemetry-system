@@ -1,0 +1,93 @@
+{
+  "detection_rate_by_fault_type": {
+    "cpu_contention": {
+      "bound_used": 0.3749736210669248,
+      "decision": "FAIL",
+      "n": 40,
+      "point_estimate": 0.525,
+      "predeclared_n": 40,
+      "successes": 21,
+      "threshold": 0.75,
+      "wilson_lower": 0.3749736210669248,
+      "wilson_upper": 0.670645298873211
+    },
+    "io_stall": {
+      "bound_used": 0.0706118771732036,
+      "decision": "FAIL",
+      "n": 40,
+      "point_estimate": 0.15,
+      "predeclared_n": 40,
+      "successes": 6,
+      "threshold": 0.75,
+      "wilson_lower": 0.0706118771732036,
+      "wilson_upper": 0.29072324366489705
+    }
+  },
+  "estimand_1_top1_detection_rate": {
+    "bound_used": 0.24345612608081602,
+    "decision": "FAIL",
+    "n": 80,
+    "point_estimate": 0.3375,
+    "predeclared_n": 80,
+    "successes": 27,
+    "threshold": 0.75,
+    "wilson_lower": 0.24345612608081602,
+    "wilson_upper": 0.4464347660182303
+  },
+  "estimand_2_trial_level_false_positive_rate": {
+    "bound_used": 0.06746270077668666,
+    "decision": "PASS",
+    "n": 80,
+    "point_estimate": 0.0125,
+    "predeclared_n": 80,
+    "successes": 1,
+    "threshold": 0.15,
+    "wilson_lower": 0.0022099755204522675,
+    "wilson_upper": 0.06746270077668666
+  },
+  "estimand_3_no_fault_false_flag_rate": {
+    "bound_used": 0.1936076805344365,
+    "decision": "FAIL",
+    "n": 16,
+    "point_estimate": 0.0,
+    "predeclared_n": 16,
+    "successes": 0,
+    "threshold": 0.1,
+    "wilson_lower": 0.0,
+    "wilson_upper": 0.1936076805344365
+  },
+  "estimand_4_root_cause_tag_accuracy": {
+    "bound_used": 0.33985615754952286,
+    "decision": "PASS",
+    "n": 27,
+    "note": "tertiary, non-gating; predeclared_n intentionally equals n (conditional estimand)",
+    "point_estimate": 0.5185185185185185,
+    "predeclared_n": 27,
+    "successes": 14,
+    "threshold": 0.0,
+    "wilson_lower": 0.33985615754952286,
+    "wilson_upper": 0.6925677302378153
+  },
+  "fault_trial_outcomes": {
+    "aborted": 0,
+    "completed": 80,
+    "not_yet_run": 0
+  },
+  "naive_baseline_top1_detection_rate": {
+    "bound_used": 0.7134167737100688,
+    "decision": "FAIL",
+    "n": 80,
+    "point_estimate": 0.8125,
+    "predeclared_n": 80,
+    "successes": 65,
+    "threshold": 0.75,
+    "wilson_lower": 0.7134167737100688,
+    "wilson_upper": 0.8829468953302267
+  },
+  "no_fault_trial_outcomes": {
+    "aborted": 0,
+    "completed": 16,
+    "not_yet_run": 0
+  },
+  "primary_claim_supported": false
+}

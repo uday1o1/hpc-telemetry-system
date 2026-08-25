@@ -119,7 +119,7 @@ async def test_job_across_all_fake_nodes_reports_within_bounded_window(rack, mon
     assert {e["status"] for e in events} == {"ok"}
 
 
-async def _dispatch_phase_override(host: str, job_id: str, phase_index: int, sieve_limit: object) -> None:
+async def _dispatch_phase_override(host: str, job_id: str, phase_index: int, sieve_limit: object, fault: object = None) -> None:
     import httpx
 
     url = f"http://127.0.0.1:{_FAKE_HOST_PORTS[host]}/start_phase"
@@ -137,7 +137,7 @@ async def test_job_times_out_when_a_node_never_reports(rack, monkeypatch):
     monkeypatch.setattr(jobs_module, "_PHASE_REPORT_TIMEOUT_S", 0.5)
     monkeypatch.setattr(jobs_module, "_PHASE_REPORT_POLL_INTERVAL_S", 0.05)
 
-    async def _dispatch_phase_noop(host: str, job_id: str, phase_index: int, sieve_limit) -> None:
+    async def _dispatch_phase_noop(host: str, job_id: str, phase_index: int, sieve_limit, fault=None) -> None:
         return None  # simulates a node that never calls back
 
     monkeypatch.setattr(jobs_module, "_dispatch_phase", _dispatch_phase_noop)
