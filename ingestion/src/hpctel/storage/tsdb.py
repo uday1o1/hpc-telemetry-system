@@ -74,6 +74,30 @@ class TSDBStore:
         cursor = self._conn.execute("SELECT DISTINCT node_id, metric_id FROM samples")
         return [(row[0], row[1]) for row in cursor.fetchall()]
 
+    def query_recent_ingestion_latencies_ms(self, since_ts_ns: int, limit: int = 100_000) -> list[float]:
+        """End-to-end ingestion latency (BUILD_PLAN.md section 13's
+        performance protocol): server_recv_ts_ns - ts_ns for every sample
+        received since `since_ts_ns`, in milliseconds. Used by
+        scripts/benchmark.py, not by any product-facing endpoint.
+        """
+        cursor = self._conn.execute(
+            """
+            SELECT server_recv_ts_ns - ts_ns
+            FROM samples
+            WHERE server_recv_ts_ns >= ?
+            ORDER BY server_recv_ts_ns
+            LIMIT ?
+            """,
+            (since_ts_ns, limit),
+        )
+        return [row[0] / 1e6 for row in cursor.fetchall()]
+
+    def count_samples_since(self, since_ts_ns: int) -> int:
+        cursor = self._conn.execute(
+            "SELECT COUNT(*) FROM samples WHERE server_recv_ts_ns >= ?", (since_ts_ns,)
+        )
+        return int(cursor.fetchone()[0])
+
     def recompute_rollups(self, node_id: str, metric_id: int) -> None:
         """Recomputes both rollup_1m and rollup_1h for one (node_id,
         metric_id) pair entirely from the raw `samples` table, so a rollup

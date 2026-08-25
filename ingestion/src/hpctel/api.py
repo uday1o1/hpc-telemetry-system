@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import time
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from dataclasses import asdict
@@ -208,3 +209,15 @@ def get_straggler_report(job_id: str, phase_index: int = 0) -> dict[str, object]
     result = asdict(report)
     result["root_cause"] = root_cause
     return result
+
+
+@app.get("/api/diagnostics/ingestion_latency_ms")
+def get_ingestion_latency(since_seconds: float = 60.0) -> dict[str, object]:
+    """Raw end-to-end ingestion latency samples (BUILD_PLAN.md section 13's
+    performance protocol). Not part of the product surface in section 14;
+    consumed only by scripts/benchmark.py.
+    """
+    since_ts_ns = time.time_ns() - int(since_seconds * 1e9)
+    latencies_ms = _store.query_recent_ingestion_latencies_ms(since_ts_ns)
+    sample_count = _store.count_samples_since(since_ts_ns)
+    return {"since_seconds": since_seconds, "sample_count": sample_count, "latencies_ms": latencies_ms}

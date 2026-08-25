@@ -46,28 +46,28 @@ services:
 
   agent-1:
     <<: *agent-defaults
-    environment: {NODE_ID: "node-1", INGEST_HOST: "ingestion", INGEST_PORT: "7070", SAMPLE_INTERVAL_MS: "250"}
+    environment: {NODE_ID: "node-1", INGEST_HOST: "ingestion", INGEST_PORT: "7070", SAMPLE_INTERVAL_MS: "${SAMPLE_INTERVAL_MS:-1000}"}
   agent-2:
     <<: *agent-defaults
-    environment: {NODE_ID: "node-2", INGEST_HOST: "ingestion", INGEST_PORT: "7070", SAMPLE_INTERVAL_MS: "250"}
+    environment: {NODE_ID: "node-2", INGEST_HOST: "ingestion", INGEST_PORT: "7070", SAMPLE_INTERVAL_MS: "${SAMPLE_INTERVAL_MS:-1000}"}
   agent-3:
     <<: *agent-defaults
-    environment: {NODE_ID: "node-3", INGEST_HOST: "ingestion", INGEST_PORT: "7070", SAMPLE_INTERVAL_MS: "250"}
+    environment: {NODE_ID: "node-3", INGEST_HOST: "ingestion", INGEST_PORT: "7070", SAMPLE_INTERVAL_MS: "${SAMPLE_INTERVAL_MS:-1000}"}
   agent-4:
     <<: *agent-defaults
-    environment: {NODE_ID: "node-4", INGEST_HOST: "ingestion", INGEST_PORT: "7070", SAMPLE_INTERVAL_MS: "250"}
+    environment: {NODE_ID: "node-4", INGEST_HOST: "ingestion", INGEST_PORT: "7070", SAMPLE_INTERVAL_MS: "${SAMPLE_INTERVAL_MS:-1000}"}
   agent-5:
     <<: *agent-defaults
-    environment: {NODE_ID: "node-5", INGEST_HOST: "ingestion", INGEST_PORT: "7070", SAMPLE_INTERVAL_MS: "250"}
+    environment: {NODE_ID: "node-5", INGEST_HOST: "ingestion", INGEST_PORT: "7070", SAMPLE_INTERVAL_MS: "${SAMPLE_INTERVAL_MS:-1000}"}
   agent-6:
     <<: *agent-defaults
-    environment: {NODE_ID: "node-6", INGEST_HOST: "ingestion", INGEST_PORT: "7070", SAMPLE_INTERVAL_MS: "250"}
+    environment: {NODE_ID: "node-6", INGEST_HOST: "ingestion", INGEST_PORT: "7070", SAMPLE_INTERVAL_MS: "${SAMPLE_INTERVAL_MS:-1000}"}
   agent-7:
     <<: *agent-defaults
-    environment: {NODE_ID: "node-7", INGEST_HOST: "ingestion", INGEST_PORT: "7070", SAMPLE_INTERVAL_MS: "250"}
+    environment: {NODE_ID: "node-7", INGEST_HOST: "ingestion", INGEST_PORT: "7070", SAMPLE_INTERVAL_MS: "${SAMPLE_INTERVAL_MS:-1000}"}
   agent-8:
     <<: *agent-defaults
-    environment: {NODE_ID: "node-8", INGEST_HOST: "ingestion", INGEST_PORT: "7070", SAMPLE_INTERVAL_MS: "250"}
+    environment: {NODE_ID: "node-8", INGEST_HOST: "ingestion", INGEST_PORT: "7070", SAMPLE_INTERVAL_MS: "${SAMPLE_INTERVAL_MS:-1000}"}
 
   workload-1:
     <<: *workload-defaults
