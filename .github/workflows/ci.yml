@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  agent-build-and-test:
+    name: C++ agent build and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build libprotobuf-dev protobuf-compiler
+
+      - name: Configure
+        run: cmake -S agent -B agent/build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build agent/build
+
+      - name: Test
+        run: ctest --test-dir agent/build --output-on-failure

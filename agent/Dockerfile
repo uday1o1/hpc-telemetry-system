@@ -18,8 +18,8 @@ COPY agent/CMakeLists.txt ./agent/CMakeLists.txt
 COPY agent/src ./agent/src
 
 WORKDIR /src/agent
-RUN cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
-    && cmake --build build
+RUN cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DHPCTEL_BUILD_TESTS=OFF \
+    && cmake --build build --target hpctel_agent
 
 FROM debian:bookworm-slim@sha256:88200866dfff7ea7f5cbcb6ec7c8a701889efe6fe859fe64d6990e4b07ea4171
 
