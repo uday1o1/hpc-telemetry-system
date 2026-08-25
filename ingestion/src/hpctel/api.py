@@ -1,8 +1,9 @@
 """FastAPI REST surface (BUILD_PLAN.md section 14).
 
-Milestone 0 scope: `/healthz`, `/api/nodes`, and one metric-series query
-endpoint, enough to prove the end-to-end vertical slice. The job, straggler
-report, and timeline endpoints are added in Milestones 2 through 6.
+`/healthz`, `/api/nodes`, and the metric-series query endpoint prove the
+end-to-end vertical slice (Milestone 0). `/api/jobs` orchestrates the
+synthetic workload across the fleet (Milestone 3). The straggler report
+and timeline endpoints are added in Milestones 4 and 6.
 
 The FastAPI process also owns the asyncio TCP ingestion listener, started
 and stopped via the lifespan context so both run on the same event loop.
@@ -16,10 +17,12 @@ from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 
 from hpctel.config import load_config
 from hpctel.constants import METRIC_NAME_TO_ID
 from hpctel.ingest_server import run_tcp_server
+from hpctel.jobs import create_job, execute_job
 from hpctel.logging_utils import configure_logging
 from hpctel.storage.tsdb import TSDBStore
 
@@ -77,3 +80,38 @@ def get_metric_series(
     if resolution in ("1m", "1h"):
         return _store.query_rollup(node_id, metric_id, resolution, limit=limit)
     raise HTTPException(status_code=400, detail=f"unknown resolution: {resolution}")
+
+
+class StartJobRequest(BaseModel):
+    phase_count: int = 1
+    sieve_limit: int | None = None
+
+
+class StartJobResponse(BaseModel):
+    job_id: str
+
+
+@app.post("/api/jobs", status_code=202)
+async def start_job(request: StartJobRequest) -> StartJobResponse:
+    if not _config.workload_hosts:
+        raise HTTPException(status_code=503, detail="no workload hosts configured (WORKLOAD_HOSTS)")
+    if request.phase_count < 1:
+        raise HTTPException(status_code=400, detail="phase_count must be at least 1")
+
+    # create_job writes the row synchronously, so job_id is immediately
+    # queryable via GET /api/jobs/{job_id}; execute_job then runs every
+    # phase in the background so this call returns right away.
+    job_id = create_job(_store, _config.workload_hosts, request.phase_count)
+    asyncio.create_task(
+        execute_job(_store, job_id, _config.workload_hosts, request.phase_count, request.sieve_limit)
+    )
+    return StartJobResponse(job_id=job_id)
+
+
+@app.get("/api/jobs/{job_id}")
+def get_job(job_id: str) -> dict[str, object]:
+    job = _store.get_job(job_id)
+    if job is None:
+        raise HTTPException(status_code=404, detail=f"unknown job_id: {job_id}")
+    job["phase_events"] = _store.list_phase_events(job_id)
+    return job

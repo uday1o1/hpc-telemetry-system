@@ -16,13 +16,17 @@ class Config:
     http_host: str
     http_port: int
     db_path: str
+    workload_hosts: list[str]
 
 
 def load_config() -> Config:
+    raw_hosts = os.environ.get("WORKLOAD_HOSTS", "")
+    workload_hosts = [h.strip() for h in raw_hosts.split(",") if h.strip()]
     return Config(
         tcp_host=os.environ.get("INGEST_TCP_HOST", "0.0.0.0"),
         tcp_port=int(os.environ.get("INGEST_TCP_PORT", "7070")),
         http_host=os.environ.get("INGEST_HTTP_HOST", "0.0.0.0"),
         http_port=int(os.environ.get("INGEST_HTTP_PORT", "8080")),
         db_path=os.environ.get("HPCTEL_DB_PATH", "/data/hpctel.sqlite3"),
+        workload_hosts=workload_hosts,
     )

@@ -50,9 +50,39 @@ CREATE_ROLLUP_1H_TABLE = _ROLLUP_TABLE_TEMPLATE.format(table_name="rollup_1h")
 BUCKET_WIDTH_NS_1M = 60_000_000_000
 BUCKET_WIDTH_NS_1H = 3_600_000_000_000
 
+# Jobs and phase events (Milestone 3). A job is a synthetic, orchestrator-
+# issued workload run across the fleet; a phase event is one node's
+# start/end report for one phase of that job (BUILD_PLAN.md section 11).
+CREATE_JOBS_TABLE = """
+CREATE TABLE IF NOT EXISTS jobs (
+    job_id TEXT PRIMARY KEY,
+    phase_count INTEGER NOT NULL,
+    node_ids_json TEXT NOT NULL,
+    fault_manifest_json TEXT,
+    status TEXT NOT NULL,
+    created_ts_ns INTEGER NOT NULL
+);
+"""
+
+CREATE_PHASE_EVENTS_TABLE = """
+CREATE TABLE IF NOT EXISTS phase_events (
+    job_id TEXT NOT NULL,
+    node_id TEXT NOT NULL,
+    phase_index INTEGER NOT NULL,
+    phase_start_ts_ns INTEGER NOT NULL,
+    phase_start_mono_ns INTEGER NOT NULL,
+    phase_end_ts_ns INTEGER NOT NULL,
+    phase_end_mono_ns INTEGER NOT NULL,
+    status TEXT NOT NULL,
+    PRIMARY KEY (job_id, node_id, phase_index)
+);
+"""
+
 ALL_DDL: tuple[str, ...] = (
     CREATE_SAMPLES_TABLE,
     CREATE_SAMPLES_NODE_TS_INDEX,
     CREATE_ROLLUP_1M_TABLE,
     CREATE_ROLLUP_1H_TABLE,
+    CREATE_JOBS_TABLE,
+    CREATE_PHASE_EVENTS_TABLE,
 )

@@ -9,8 +9,8 @@ import asyncio
 import logging
 import time
 
-from hpctel._generated.telemetry_pb2 import SampleBatch
-from hpctel.constants import FRAME_TAG_SAMPLE_BATCH
+from hpctel._generated.telemetry_pb2 import PhaseEvent, SampleBatch
+from hpctel.constants import FRAME_TAG_PHASE_EVENT, FRAME_TAG_SAMPLE_BATCH
 from hpctel.framing import FRAME_HEADER_LENGTH, UnknownFrameTagError, decode_frame
 from hpctel.storage.tsdb import TSDBStore
 from hpctel.validation import validate_batch
@@ -69,7 +69,8 @@ def _drain_frames(buffer: bytearray, store: TSDBStore, peer: object) -> None:
         del buffer[:consumed]
         if frame.tag == FRAME_TAG_SAMPLE_BATCH:
             _handle_sample_batch(frame.payload, store)
-        # PhaseEvent handling is added in Milestone 3.
+        elif frame.tag == FRAME_TAG_PHASE_EVENT:
+            _handle_phase_event(frame.payload, store)
 
 
 def _handle_sample_batch(payload: bytes, store: TSDBStore) -> None:
@@ -109,6 +110,25 @@ def _handle_sample_batch(payload: bytes, store: TSDBStore) -> None:
     ]
     store.insert_samples(rows)
     logger.info("sample_batch_ingested", extra={"node_id": rows[0][0]})
+
+
+def _handle_phase_event(payload: bytes, store: TSDBStore) -> None:
+    event = PhaseEvent()
+    event.ParseFromString(payload)
+    store.insert_phase_event(
+        job_id=event.job_id,
+        node_id=event.node_id,
+        phase_index=event.phase_index,
+        phase_start_ts_ns=event.phase_start_ts_ns,
+        phase_start_mono_ns=event.phase_start_mono_ns,
+        phase_end_ts_ns=event.phase_end_ts_ns,
+        phase_end_mono_ns=event.phase_end_mono_ns,
+        status=event.status,
+    )
+    logger.info(
+        "phase_event_ingested",
+        extra={"node_id": event.node_id, "job_id": event.job_id},
+    )
 
 
 async def run_tcp_server(host: str, port: int, store: TSDBStore) -> asyncio.AbstractServer:

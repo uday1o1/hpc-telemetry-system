@@ -8,6 +8,7 @@ corrupt the store.
 
 from __future__ import annotations
 
+import json
 import sqlite3
 from pathlib import Path
 
@@ -128,6 +129,112 @@ class TSDBStore:
                 "min_value": row[2],
                 "max_value": row[3],
                 "sample_count": row[4],
+            }
+            for row in cursor.fetchall()
+        ]
+
+    # -- Jobs and phase events (Milestone 3) --------------------------------
+
+    def create_job(
+        self, job_id: str, phase_count: int, node_ids: list[str], created_ts_ns: int
+    ) -> None:
+        self._conn.execute(
+            """
+            INSERT INTO jobs (job_id, phase_count, node_ids_json, fault_manifest_json, status, created_ts_ns)
+            VALUES (?, ?, ?, NULL, 'running', ?)
+            """,
+            (job_id, phase_count, json.dumps(node_ids), created_ts_ns),
+        )
+        self._conn.commit()
+
+    def set_job_status(self, job_id: str, status: str) -> None:
+        self._conn.execute("UPDATE jobs SET status = ? WHERE job_id = ?", (status, job_id))
+        self._conn.commit()
+
+    def get_job(self, job_id: str) -> dict[str, object] | None:
+        cursor = self._conn.execute(
+            "SELECT job_id, phase_count, node_ids_json, status, created_ts_ns FROM jobs WHERE job_id = ?",
+            (job_id,),
+        )
+        row = cursor.fetchone()
+        if row is None:
+            return None
+        return {
+            "job_id": row[0],
+            "phase_count": row[1],
+            "node_ids": json.loads(row[2]),
+            "status": row[3],
+            "created_ts_ns": row[4],
+        }
+
+    def insert_phase_event(
+        self,
+        job_id: str,
+        node_id: str,
+        phase_index: int,
+        phase_start_ts_ns: int,
+        phase_start_mono_ns: int,
+        phase_end_ts_ns: int,
+        phase_end_mono_ns: int,
+        status: str,
+    ) -> None:
+        self._conn.execute(
+            """
+            INSERT OR IGNORE INTO phase_events
+                (job_id, node_id, phase_index, phase_start_ts_ns, phase_start_mono_ns,
+                 phase_end_ts_ns, phase_end_mono_ns, status)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                job_id,
+                node_id,
+                phase_index,
+                phase_start_ts_ns,
+                phase_start_mono_ns,
+                phase_end_ts_ns,
+                phase_end_mono_ns,
+                status,
+            ),
+        )
+        self._conn.commit()
+
+    def count_phase_reports(self, job_id: str, phase_index: int) -> int:
+        cursor = self._conn.execute(
+            "SELECT COUNT(*) FROM phase_events WHERE job_id = ? AND phase_index = ?",
+            (job_id, phase_index),
+        )
+        return int(cursor.fetchone()[0])
+
+    def list_phase_events(self, job_id: str, phase_index: int | None = None) -> list[dict[str, object]]:
+        if phase_index is None:
+            cursor = self._conn.execute(
+                """
+                SELECT node_id, phase_index, phase_start_ts_ns, phase_start_mono_ns,
+                       phase_end_ts_ns, phase_end_mono_ns, status
+                FROM phase_events WHERE job_id = ?
+                ORDER BY phase_index, node_id
+                """,
+                (job_id,),
+            )
+        else:
+            cursor = self._conn.execute(
+                """
+                SELECT node_id, phase_index, phase_start_ts_ns, phase_start_mono_ns,
+                       phase_end_ts_ns, phase_end_mono_ns, status
+                FROM phase_events WHERE job_id = ? AND phase_index = ?
+                ORDER BY node_id
+                """,
+                (job_id, phase_index),
+            )
+        return [
+            {
+                "node_id": row[0],
+                "phase_index": row[1],
+                "phase_start_ts_ns": row[2],
+                "phase_start_mono_ns": row[3],
+                "phase_end_ts_ns": row[4],
+                "phase_end_mono_ns": row[5],
+                "status": row[6],
             }
             for row in cursor.fetchall()
         ]

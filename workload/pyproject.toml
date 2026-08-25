@@ -1,15 +1,12 @@
 [project]
-name = "hpctel-ingestion"
+name = "hpctel-workloadrunner"
 version = "0.1.0"
-description = "HPC Telemetry System: async ingestion, storage, and analysis service"
+description = "HPC Telemetry System: synthetic per-node job runner and fault injector"
 requires-python = ">=3.12"
 dependencies = [
     "fastapi",
     "uvicorn[standard]",
     "protobuf",
-    "pydantic",
-    "jinja2",
-    "httpx",
 ]
 
 [project.optional-dependencies]
@@ -17,7 +14,6 @@ dev = [
     "pytest",
     "pytest-asyncio",
     "ruff",
-    "mypy",
     "httpx",
 ]
 

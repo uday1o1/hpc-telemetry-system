@@ -1,3 +1,26 @@
+x-agent-defaults: &agent-defaults
+  build:
+    context: .
+    dockerfile: agent/Dockerfile
+  depends_on:
+    ingestion:
+      condition: service_healthy
+  networks:
+    - hpctel-net
+
+x-workload-defaults: &workload-defaults
+  build:
+    context: .
+    dockerfile: workload/Dockerfile
+  environment:
+    INGEST_HOST: "ingestion"
+    INGEST_PORT: "7070"
+  depends_on:
+    ingestion:
+      condition: service_healthy
+  networks:
+    - hpctel-net
+
 services:
   ingestion:
     build:
@@ -9,6 +32,8 @@ services:
       INGEST_HTTP_HOST: "0.0.0.0"
       INGEST_HTTP_PORT: "8080"
       HPCTEL_DB_PATH: "/data/hpctel.sqlite3"
+      # Milestone 3: the job orchestrator's fleet of workload-runner hosts.
+      WORKLOAD_HOSTS: "workload-1,workload-2,workload-3,workload-4,workload-5,workload-6,workload-7,workload-8"
     ports:
       - "127.0.0.1:8080:8080"
     healthcheck:
@@ -20,18 +45,54 @@ services:
       - hpctel-net
 
   agent-1:
-    build:
-      context: .
-      dockerfile: agent/Dockerfile
-    environment:
-      NODE_ID: "node-1"
-      INGEST_HOST: "ingestion"
-      INGEST_PORT: "7070"
-    depends_on:
-      ingestion:
-        condition: service_healthy
-    networks:
-      - hpctel-net
+    <<: *agent-defaults
+    environment: {NODE_ID: "node-1", INGEST_HOST: "ingestion", INGEST_PORT: "7070"}
+  agent-2:
+    <<: *agent-defaults
+    environment: {NODE_ID: "node-2", INGEST_HOST: "ingestion", INGEST_PORT: "7070"}
+  agent-3:
+    <<: *agent-defaults
+    environment: {NODE_ID: "node-3", INGEST_HOST: "ingestion", INGEST_PORT: "7070"}
+  agent-4:
+    <<: *agent-defaults
+    environment: {NODE_ID: "node-4", INGEST_HOST: "ingestion", INGEST_PORT: "7070"}
+  agent-5:
+    <<: *agent-defaults
+    environment: {NODE_ID: "node-5", INGEST_HOST: "ingestion", INGEST_PORT: "7070"}
+  agent-6:
+    <<: *agent-defaults
+    environment: {NODE_ID: "node-6", INGEST_HOST: "ingestion", INGEST_PORT: "7070"}
+  agent-7:
+    <<: *agent-defaults
+    environment: {NODE_ID: "node-7", INGEST_HOST: "ingestion", INGEST_PORT: "7070"}
+  agent-8:
+    <<: *agent-defaults
+    environment: {NODE_ID: "node-8", INGEST_HOST: "ingestion", INGEST_PORT: "7070"}
+
+  workload-1:
+    <<: *workload-defaults
+    environment: {NODE_ID: "node-1", INGEST_HOST: "ingestion", INGEST_PORT: "7070"}
+  workload-2:
+    <<: *workload-defaults
+    environment: {NODE_ID: "node-2", INGEST_HOST: "ingestion", INGEST_PORT: "7070"}
+  workload-3:
+    <<: *workload-defaults
+    environment: {NODE_ID: "node-3", INGEST_HOST: "ingestion", INGEST_PORT: "7070"}
+  workload-4:
+    <<: *workload-defaults
+    environment: {NODE_ID: "node-4", INGEST_HOST: "ingestion", INGEST_PORT: "7070"}
+  workload-5:
+    <<: *workload-defaults
+    environment: {NODE_ID: "node-5", INGEST_HOST: "ingestion", INGEST_PORT: "7070"}
+  workload-6:
+    <<: *workload-defaults
+    environment: {NODE_ID: "node-6", INGEST_HOST: "ingestion", INGEST_PORT: "7070"}
+  workload-7:
+    <<: *workload-defaults
+    environment: {NODE_ID: "node-7", INGEST_HOST: "ingestion", INGEST_PORT: "7070"}
+  workload-8:
+    <<: *workload-defaults
+    environment: {NODE_ID: "node-8", INGEST_HOST: "ingestion", INGEST_PORT: "7070"}
 
 networks:
   hpctel-net:
