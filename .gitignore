@@ -6,6 +6,7 @@ agent/**/CMakeCache.txt
 
 # Python
 __pycache__/
+**/_generated/
 *.pyc
 .venv/
 *.egg-info/

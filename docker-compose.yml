@@ -1,0 +1,38 @@
+services:
+  ingestion:
+    build:
+      context: .
+      dockerfile: ingestion/Dockerfile
+    environment:
+      INGEST_TCP_HOST: "0.0.0.0"
+      INGEST_TCP_PORT: "7070"
+      INGEST_HTTP_HOST: "0.0.0.0"
+      INGEST_HTTP_PORT: "8080"
+      HPCTEL_DB_PATH: "/data/hpctel.sqlite3"
+    ports:
+      - "127.0.0.1:8080:8080"
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/healthz', timeout=2)"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+    networks:
+      - hpctel-net
+
+  agent-1:
+    build:
+      context: .
+      dockerfile: agent/Dockerfile
+    environment:
+      NODE_ID: "node-1"
+      INGEST_HOST: "ingestion"
+      INGEST_PORT: "7070"
+    depends_on:
+      ingestion:
+        condition: service_healthy
+    networks:
+      - hpctel-net
+
+networks:
+  hpctel-net:
+    driver: bridge

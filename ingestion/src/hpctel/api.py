@@ -1,0 +1,61 @@
+"""FastAPI REST surface (BUILD_PLAN.md section 14).
+
+Milestone 0 scope: `/healthz`, `/api/nodes`, and one metric-series query
+endpoint, enough to prove the end-to-end vertical slice. The job, straggler
+report, and timeline endpoints are added in Milestones 2 through 6.
+
+The FastAPI process also owns the asyncio TCP ingestion listener, started
+and stopped via the lifespan context so both run on the same event loop.
+"""
+
+from __future__ import annotations
+
+import logging
+from contextlib import asynccontextmanager
+from typing import AsyncIterator
+
+from fastapi import FastAPI, HTTPException
+
+from hpctel.config import load_config
+from hpctel.constants import METRIC_NAME_TO_ID
+from hpctel.ingest_server import run_tcp_server
+from hpctel.logging_utils import configure_logging
+from hpctel.storage.tsdb import TSDBStore
+
+configure_logging()
+logger = logging.getLogger("hpctel.api")
+
+_config = load_config()
+_store = TSDBStore(_config.db_path)
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+    tcp_server = await run_tcp_server(_config.tcp_host, _config.tcp_port, _store)
+    try:
+        yield
+    finally:
+        tcp_server.close()
+        await tcp_server.wait_closed()
+        _store.close()
+
+
+app = FastAPI(title="HPC Telemetry System", lifespan=lifespan)
+
+
+@app.get("/healthz")
+def healthz() -> dict[str, str]:
+    return {"status": "ok"}
+
+
+@app.get("/api/nodes")
+def list_nodes() -> list[dict[str, object]]:
+    return _store.list_nodes()
+
+
+@app.get("/api/metrics/{node_id}/{metric_name}")
+def get_metric_series(node_id: str, metric_name: str, limit: int = 100) -> list[dict[str, object]]:
+    metric_id = METRIC_NAME_TO_ID.get(metric_name)
+    if metric_id is None:
+        raise HTTPException(status_code=404, detail=f"unknown metric_name: {metric_name}")
+    return _store.query_series(node_id, metric_id, limit=limit)

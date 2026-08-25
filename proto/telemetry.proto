@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package hpctel.v1;
+
+// Canonical metric_id mapping (see BUILD_PLAN.md section 7). This mapping is
+// the single source of truth; the C++ agent header and the Python constants
+// module are both generated or manually kept in exact sync with this table.
+//
+//  1 = cpu_pct           (percent)
+//  2 = mem_used_bytes     (bytes)
+//  3 = mem_total_bytes    (bytes)
+//  4 = load1              (load average)
+//  5 = iowait_pct         (percent)
+//  6 = disk_read_bytes_s  (bytes per second)
+//  7 = disk_write_bytes_s (bytes per second)
+//  8 = net_rx_bytes_s     (bytes per second)
+//  9 = net_tx_bytes_s     (bytes per second)
+// 10 = proc_count         (count)
+
+// One observation of one metric on one node.
+message Sample {
+  string node_id = 1;
+  uint32 metric_id = 2;
+
+  // Wall-clock time (CLOCK_REALTIME), nanoseconds since the Unix epoch.
+  // Used only for display, correlation, and ordering, never for duration
+  // or rate math.
+  int64 ts_ns = 3;
+
+  // Monotonic time (CLOCK_MONOTONIC), nanoseconds, agent-local. Used for
+  // all elapsed-time and rate derivations. Not comparable across nodes.
+  int64 mono_ns = 4;
+
+  // Set by the ingestion server at frame receipt (CLOCK_REALTIME,
+  // nanoseconds since epoch). Left at 0 on the wire from the agent.
+  int64 server_recv_ts_ns = 5;
+
+  double value = 6;
+}
+
+// A batch of samples sent by one agent in one framed message.
+message SampleBatch {
+  uint32 schema_version = 1;
+  string producer_version = 2;
+  repeated Sample samples = 3;
+}
+
+// Reported by the workload runner at the start and end of one synthetic
+// job phase on one node.
+message PhaseEvent {
+  string job_id = 1;
+  string node_id = 2;
+  uint32 phase_index = 3;
+
+  int64 phase_start_ts_ns = 4;
+  int64 phase_start_mono_ns = 5;
+  int64 phase_end_ts_ns = 6;
+  int64 phase_end_mono_ns = 7;
+
+  // "ok" or "error"
+  string status = 8;
+}
