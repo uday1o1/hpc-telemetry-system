@@ -10,9 +10,10 @@ and stopped via the lifespan context so both run on the same event loop.
 
 from __future__ import annotations
 
+import asyncio
 import logging
+from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
-from typing import AsyncIterator
 
 from fastapi import FastAPI, HTTPException
 
@@ -28,13 +29,24 @@ logger = logging.getLogger("hpctel.api")
 _config = load_config()
 _store = TSDBStore(_config.db_path)
 
+_ROLLUP_REFRESH_INTERVAL_S = 30.0
+
+
+async def _refresh_rollups_periodically(store: TSDBStore) -> None:
+    while True:
+        await asyncio.sleep(_ROLLUP_REFRESH_INTERVAL_S)
+        for node_id, metric_id in store.distinct_node_metric_pairs():
+            store.recompute_rollups(node_id, metric_id)
+
 
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     tcp_server = await run_tcp_server(_config.tcp_host, _config.tcp_port, _store)
+    rollup_task = asyncio.create_task(_refresh_rollups_periodically(_store))
     try:
         yield
     finally:
+        rollup_task.cancel()
         tcp_server.close()
         await tcp_server.wait_closed()
         _store.close()
@@ -54,8 +66,14 @@ def list_nodes() -> list[dict[str, object]]:
 
 
 @app.get("/api/metrics/{node_id}/{metric_name}")
-def get_metric_series(node_id: str, metric_name: str, limit: int = 100) -> list[dict[str, object]]:
+def get_metric_series(
+    node_id: str, metric_name: str, limit: int = 100, resolution: str = "raw"
+) -> list[dict[str, object]]:
     metric_id = METRIC_NAME_TO_ID.get(metric_name)
     if metric_id is None:
         raise HTTPException(status_code=404, detail=f"unknown metric_name: {metric_name}")
-    return _store.query_series(node_id, metric_id, limit=limit)
+    if resolution == "raw":
+        return _store.query_series(node_id, metric_id, limit=limit)
+    if resolution in ("1m", "1h"):
+        return _store.query_rollup(node_id, metric_id, resolution, limit=limit)
+    raise HTTPException(status_code=400, detail=f"unknown resolution: {resolution}")

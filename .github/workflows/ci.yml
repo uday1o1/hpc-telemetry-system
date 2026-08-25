@@ -27,3 +27,32 @@ jobs:
 
       - name: Test
         run: ctest --test-dir agent/build --output-on-failure
+
+  ingestion-build-and-test:
+    name: Python ingestion build and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install protoc
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends protobuf-compiler
+
+      - name: Generate protobuf binding
+        run: |
+          mkdir -p ingestion/src/hpctel/_generated
+          protoc --python_out=ingestion/src/hpctel/_generated -I proto proto/telemetry.proto
+          touch ingestion/src/hpctel/_generated/__init__.py
+
+      - name: Install package
+        run: pip install -e "./ingestion[dev]"
+
+      - name: Lint
+        run: ruff check ingestion/src ingestion/tests
+
+      - name: Test
+        run: pytest -q
+        working-directory: ingestion
